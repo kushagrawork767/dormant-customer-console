@@ -135,96 +135,24 @@
     box-shadow: 0 0 0 3px var(--accent-soft);
   }
 
-  fieldset { border: none; margin: 0; padding: 0; }
-  legend { padding: 0; margin-bottom: 8px; width: 100%; }
-
-  .voice-options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .voice-option {
-    position: relative;
+  select#voice {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 14.5px;
+    color: var(--text);
+    background: var(--surface-2) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="%237A716E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat right 14px center;
     border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--surface-2);
-    padding: 11px 14px;
-    cursor: pointer;
-    transition: border-color 120ms ease, background 120ms ease;
-  }
-  .voice-option:hover { border-color: var(--text-muted); }
-  .voice-option input {
-    position: absolute;
-    opacity: 0;
-    width: 1px;
-    height: 1px;
-  }
-  .voice-option input:focus-visible ~ .voice-row {
-    outline: 2px solid var(--focus);
-    outline-offset: 2px;
-    border-radius: 8px;
-  }
-  .voice-option:has(input:checked) {
-    border-color: var(--accent);
-    background: var(--accent-soft);
-  }
-  .voice-row {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-  }
-  .voice-dot {
-    width: 17px;
-    height: 17px;
-    border-radius: 50%;
-    border: 1.5px solid var(--text-muted);
-    flex: none;
-    display: grid;
-    place-items: center;
-    transition: border-color 120ms ease;
-  }
-  .voice-option:has(input:checked) .voice-dot { border-color: var(--accent); }
-  .voice-dot::after {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    transform: scale(0);
-    transition: transform 120ms ease;
-  }
-  .voice-option:has(input:checked) .voice-dot::after { transform: scale(1); }
-  .voice-text { display: flex; flex-direction: column; gap: 1px; }
-  .voice-name { font-family: "Manrope", sans-serif; font-weight: 700; font-size: 14.5px; }
-  .voice-desc { font-size: 12.5px; color: var(--text-muted); }
-  .voice-provider {
-    margin-left: auto;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 2px 7px;
-    border-radius: 999px;
-    flex: none;
-  }
-
-  .voice-caveat {
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--text-muted);
-    background: var(--surface-2);
-    border: 1px dashed var(--border);
     border-radius: 10px;
-    padding: 9px 11px;
-    margin-top: 10px;
+    padding: 11px 36px 11px 12px;
+    cursor: pointer;
   }
-  .voice-caveat svg { flex: none; margin-top: 2px; }
+  select#voice:focus {
+    outline: none;
+    border-color: var(--focus);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
 
   button#call-btn {
     font-family: "Manrope", sans-serif;
@@ -305,48 +233,20 @@
     </div>
 
     <div>
-      <fieldset>
-        <legend class="field-label">Agent voice</legend>
-        <div class="voice-options" id="voice-options">
-          <label class="voice-option">
-            <input type="radio" name="voice" value="tripti" checked />
-            <span class="voice-row">
-              <span class="voice-dot" aria-hidden="true"></span>
-              <span class="voice-text">
-                <span class="voice-name">Tripti</span>
-                <span class="voice-desc">Calm and conversational</span>
-              </span>
-              <span class="voice-provider">11labs</span>
-            </span>
-          </label>
-          <label class="voice-option">
-            <input type="radio" name="voice" value="kanika" />
-            <span class="voice-row">
-              <span class="voice-dot" aria-hidden="true"></span>
-              <span class="voice-text">
-                <span class="voice-name">Kanika</span>
-                <span class="voice-desc">Calm and conversational</span>
-              </span>
-              <span class="voice-provider">11labs</span>
-            </span>
-          </label>
-          <label class="voice-option">
-            <input type="radio" name="voice" value="annika" />
-            <span class="voice-row">
-              <span class="voice-dot" aria-hidden="true"></span>
-              <span class="voice-text">
-                <span class="voice-name">Annika</span>
-                <span class="voice-desc">Lively and warm</span>
-              </span>
-              <span class="voice-provider">11labs</span>
-            </span>
-          </label>
-        </div>
-      </fieldset>
-      <div class="voice-caveat">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.5 15 14H1L8 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 6.2V9.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="11.6" r="0.9" fill="currentColor"/></svg>
-        <span>Tripti, Kanika, and Annika aren't configured anywhere in the backend yet (checked the code and every shop's DB config) — the call will still place, but the voice won't change until real ElevenLabs voice IDs are added for them.</span>
-      </div>
+      <label class="field-label" for="voice">Agent voice</label>
+      <select id="voice">
+        <option value="smriti" selected>Smriti</option>
+        <option value="daksh">Daksh</option>
+        <option value="zara">Zara</option>
+        <option value="vihan">Vihan</option>
+        <option value="alok">Alok</option>
+        <option value="bunty">Bunty</option>
+        <option value="anvi">Anvi</option>
+        <option value="zina">Zina</option>
+        <option value="lucy">Lucy</option>
+        <option value="lily">Lily</option>
+        <option value="oliver">Oliver</option>
+      </select>
     </div>
 
     <button id="call-btn" type="button">
@@ -393,8 +293,7 @@
       phoneInput.focus();
       return;
     }
-    var voice = document.querySelector('input[name="voice"]:checked');
-    var voiceValue = voice ? voice.value : "tripti";
+    var voiceValue = document.getElementById("voice").value;
 
     var url = BASE_URL
       + "?accountId=" + encodeURIComponent(ACCOUNT_ID)
@@ -402,7 +301,7 @@
       + "&voice=" + encodeURIComponent(voiceValue);
 
     setLoading(true);
-    showStatus("pending", "Placing call…", url);
+    showStatus("pending", "Placing call…", "");
 
     fetch(url, {
       method: "GET",
@@ -419,7 +318,7 @@
         if (result.ok && result.data && result.data.success) {
           showStatus("ok", "Call placed", "callId: " + JSON.stringify(result.data.result));
         } else {
-          showStatus("err", "Endpoint returned an error", JSON.stringify(result.data));
+          showStatus("err", "Call request failed", JSON.stringify(result.data));
         }
       })
       .catch(function (err) {
