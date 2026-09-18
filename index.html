@@ -300,7 +300,7 @@
       <label class="field-label" for="phone">Phone number</label>
       <div class="phone-input-row">
         <span class="phone-prefix">+91</span>
-        <input id="phone" type="tel" inputmode="numeric" maxlength="10" value="8115570767" placeholder="10-digit number" />
+        <input id="phone" type="tel" inputmode="numeric" maxlength="10" value="" placeholder="10-digit number" />
       </div>
     </div>
 
@@ -404,7 +404,10 @@
     setLoading(true);
     showStatus("pending", "Placing call…", url);
 
-    fetch(url, { method: "GET" })
+    fetch(url, {
+      method: "GET",
+      headers: { "ngrok-skip-browser-warning": "true" }
+    })
       .then(function (res) {
         var contentType = res.headers.get("content-type") || "";
         if (contentType.indexOf("application/json") === -1) {
