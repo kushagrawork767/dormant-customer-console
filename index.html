@@ -135,6 +135,23 @@
     box-shadow: 0 0 0 3px var(--accent-soft);
   }
 
+  #customer-name {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 14.5px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 12px;
+    outline: none;
+  }
+  #customer-name:focus {
+    border-color: var(--focus);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
   select#voice {
     width: 100%;
     appearance: none;
@@ -233,6 +250,11 @@
     </div>
 
     <div>
+      <label class="field-label" for="customer-name">Customer name (optional)</label>
+      <input id="customer-name" type="text" value="" placeholder="Leave blank to skip" />
+    </div>
+
+    <div>
       <label class="field-label" for="voice">Agent voice</label>
       <select id="voice">
         <option value="smriti" selected>Smriti</option>
@@ -246,6 +268,9 @@
         <option value="lucy">Lucy</option>
         <option value="lily">Lily</option>
         <option value="oliver">Oliver</option>
+        <option value="tripti" data-voice-id="HS8CUZ9Cpfs4IW3AUJKT">Tripti</option>
+        <option value="kanika" data-voice-id="C2S5J6WvmHnrQWjUu6Rg">Kanika</option>
+        <option value="annika" data-voice-id="KyfbaxKn0koa3NIXPw0g">Annika</option>
       </select>
     </div>
 
@@ -268,6 +293,7 @@
   var ACCOUNT_ID = "bd79af44-2a5b-4647-b12a-692dadebbd2f";
 
   var phoneInput = document.getElementById("phone");
+  var nameInput = document.getElementById("customer-name");
   var callBtn = document.getElementById("call-btn");
   var btnLabel = document.getElementById("btn-label");
   var statusEl = document.getElementById("status");
@@ -293,12 +319,28 @@
       phoneInput.focus();
       return;
     }
-    var voiceValue = document.getElementById("voice").value;
+    var voiceSelect = document.getElementById("voice");
+    var voiceOption = voiceSelect.options[voiceSelect.selectedIndex];
+    var rawVoiceId = voiceOption.getAttribute("data-voice-id");
+    var nameValue = (nameInput.value || "").trim();
 
     var url = BASE_URL
       + "?accountId=" + encodeURIComponent(ACCOUNT_ID)
-      + "&phoneNumber=" + encodeURIComponent("91" + digits)
-      + "&voice=" + encodeURIComponent(voiceValue);
+      + "&phoneNumber=" + encodeURIComponent("91" + digits);
+
+    // Voices with a raw ElevenLabs id (data-voice-id) go through &voiceId=,
+    // which plays that exact voice regardless of the agent's configured one —
+    // no backend registration needed. Everything else keeps using the
+    // existing named &voice= lookup, unchanged.
+    url += rawVoiceId
+      ? "&voiceId=" + encodeURIComponent(rawVoiceId)
+      : "&voice=" + encodeURIComponent(voiceSelect.value);
+
+    // Optional — omitted entirely when blank, so the call falls through to the
+    // existing no-name flow unchanged.
+    if (nameValue) {
+      url += "&name=" + encodeURIComponent(nameValue);
+    }
 
     setLoading(true);
     showStatus("pending", "Placing call…", "");
